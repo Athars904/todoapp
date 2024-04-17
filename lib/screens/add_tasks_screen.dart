@@ -19,7 +19,7 @@ class AddTask extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(
+            const Text(
               'Add Tasks',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -27,19 +27,17 @@ class AddTask extends StatelessWidget {
                 fontSize: 30.0,
               ),
             ),
-            TextField(
+            const TextField(
               autofocus: true,
               textAlign: TextAlign.center,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
             ElevatedButton(
               onPressed: () {
                 // Add your onPressed function here
               },
-              child: Text('Add',
-              style: TextStyle(color: Colors.white),),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.lightBlueAccent),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -48,6 +46,8 @@ class AddTask extends StatelessWidget {
                   ),
                 ),
               ),
+              child: const Text('Add',
+              style: TextStyle(color: Colors.white),),
             ),
           ],
         ),
