@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AddTask extends StatelessWidget {
-  const AddTask({Key? key});
+  final Function(String) addTaskCallBack; // Corrected data type for addTaskCallBack
+
+  AddTask({required this.addTaskCallBack});
 
   @override
   Widget build(BuildContext context) {
+    late String newTitle;
+
     return Container(
       color: const Color(0xFF757575),
       child: Container(
@@ -27,16 +31,20 @@ class AddTask extends StatelessWidget {
                 fontSize: 30.0,
               ),
             ),
-            const TextField(
+            TextField(
               autofocus: true,
               textAlign: TextAlign.center,
+              onChanged: (newText) {
+                newTitle = newText;
+              },
             ),
             const SizedBox(
               height: 10.0,
             ),
             ElevatedButton(
               onPressed: () {
-                // Add your onPressed function here
+                addTaskCallBack(newTitle);
+                Navigator.pop(context);// Call the callback function with the newTitle parameter
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.lightBlueAccent),
@@ -46,8 +54,10 @@ class AddTask extends StatelessWidget {
                   ),
                 ),
               ),
-              child: const Text('Add',
-              style: TextStyle(color: Colors.white),),
+              child: const Text(
+                'Add',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
