@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'package:todoapp/models/task_data.dart';
 class AddTask extends StatelessWidget {
-  final Function(String) addTaskCallBack; // Corrected data type for addTaskCallBack
-
-  AddTask({required this.addTaskCallBack});
+  const AddTask({super.key});
 
   @override
   Widget build(BuildContext context) {
-    late String newTitle;
-
+    String newTitle=' ';
     return Container(
       color: const Color(0xFF757575),
       child: Container(
@@ -43,7 +41,7 @@ class AddTask extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                addTaskCallBack(newTitle);
+                Provider.of<TaskData>(context,listen: false).addTask(newTitle);
                 Navigator.pop(context);// Call the callback function with the newTitle parameter
               },
               style: ButtonStyle(

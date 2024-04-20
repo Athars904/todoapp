@@ -3,13 +3,48 @@ import 'package:flutter/material.dart';
 class TaskTile extends StatelessWidget {
   final bool isChecked;
   final String taskTitle;
-  final Function(bool?) checkBoxCallBack; // Callback function to handle checkbox state change
+  final Function(bool?) checkBoxCallBack;
+  final VoidCallback? onLongPressCallBack;
 
-  TaskTile({required this.taskTitle, required this.isChecked, required this.checkBoxCallBack});
+  const TaskTile({
+    super.key,
+    required this.taskTitle,
+    required this.isChecked,
+    required this.checkBoxCallBack,
+    this.onLongPressCallBack,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: () {
+        // Show a dialog to confirm deletion
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Confirm Deletion'),
+              content: const Text('Are you sure you want to delete this task?'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Call the delete task function and close the dialog
+                    onLongPressCallBack?.call();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Delete'),
+                ),
+              ],
+            );
+          },
+        );
+      },
       title: Text(
         taskTitle,
         style: TextStyle(
@@ -19,7 +54,7 @@ class TaskTile extends StatelessWidget {
       trailing: Checkbox(
         activeColor: Colors.lightBlueAccent,
         value: isChecked,
-        onChanged: checkBoxCallBack, // Assign the onChanged callback function here
+        onChanged: checkBoxCallBack,
       ),
     );
   }

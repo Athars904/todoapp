@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/widgets/tasks_list.dart';
 import 'package:todoapp/screens/add_tasks_screen.dart';
-import 'package:todoapp/models/tasks.dart';
-
-class TaskScreen extends StatefulWidget {
-  const TaskScreen({super.key}); // Corrected the constructor
-
-  @override
-  State<TaskScreen> createState() => _TaskScreenState();
-}
-
-class _TaskScreenState extends State<TaskScreen> {
-  List<Task> tasks = [
-    Task(name: 'Buy eggs'),
-    Task(name: 'do sex'),
-    Task(name: 'smash shit out of everyone')
-  ];
+import 'package:provider/provider.dart';
+import 'package:todoapp/models/task_data.dart';
+class TaskScreen extends StatelessWidget {
+  const TaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +19,7 @@ class _TaskScreenState extends State<TaskScreen> {
         onPressed: () {
         showModalBottomSheet(
           context: context,
-          builder: (context) => AddTask(
-            addTaskCallBack: (newTaskTitle) {
-              setState(() {
-                tasks.add(Task(name: newTaskTitle));
-              });
-            },
-          ),
+          builder: (context) => const AddTask(),
         );
       },
       ),
@@ -68,7 +51,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     ),
                   ),
                   Text(
-                    '${tasks.length} Tasks',
+                    '${Provider.of<TaskData>(context).taskCount()} Tasks',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,
@@ -87,7 +70,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     topRight: Radius.circular(30.0),
                   ),
                 ),
-                child: TasksList(tasks: tasks), // Pass tasks through the constructor
+                child: const TasksList(), // Pass tasks through the constructor
               ),
             ),
           ],
